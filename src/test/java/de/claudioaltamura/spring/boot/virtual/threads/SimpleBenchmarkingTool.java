@@ -19,19 +19,18 @@ class SimpleBenchmarkingTool {
 
   private static final int NUMBER_OF_CLIENTS = 10;
 
-  private static final int NUMBER_OF_REQUESTS = 10;
+  private static final int NUMBER_OF_REQUESTS = 100;
 
   private static final int DURATION_SECONDS = 10;
 
   public static void main(String[] args) {
     System.out.println("clients: " + NUMBER_OF_CLIENTS);
     System.out.println("number of requests: " + NUMBER_OF_CLIENTS);
-    System.out.println("duration: " + DURATION_SECONDS);
     System.out.println("results: ");
 
     try (var executorService = Executors.newFixedThreadPool(NUMBER_OF_CLIENTS);
-        var client =
-            HttpClient.newBuilder()
+
+            HttpClient client = HttpClient.newBuilder()
                 .executor(executorService)
                 .version(Version.HTTP_2)
                 .followRedirects(Redirect.NORMAL)
@@ -62,9 +61,8 @@ class SimpleBenchmarkingTool {
       CompletableFuture.allOf(sendRequests.toArray(new CompletableFuture[0])).join();
 
       long finish = System.currentTimeMillis();
-      long timeElapsed = finish - start;
 
-      System.out.println("Time elapsed: " + timeElapsed + " ms");
+      System.out.println("Time elapsed: " + (finish - start) + " ms");
     } catch (URISyntaxException e) {
       throw new RuntimeException(e);
     }
