@@ -24,9 +24,19 @@ class SimpleBenchmarkingTool {
   private static final int DURATION_SECONDS = 10;
 
   public static void main(String[] args) {
-    System.out.println("clients: " + NUMBER_OF_CLIENTS);
-    System.out.println("number of requests: " + NUMBER_OF_CLIENTS);
-    System.out.println("results: ");
+    var numberOfRuns = 10;
+    var times = new ArrayList<Long>();
+    for(int i = 1; i <= numberOfRuns; i++) {
+      times.add(run(i));
+    }
+
+    times.stream().mapToLong(i -> i).average().ifPresent(avg -> System.out.println("avg: " + avg + " ms"));
+  }
+  public static long run(int currentRun)  {
+//    System.out.println("current run: " + currentRun);
+//    System.out.println("clients: " + NUMBER_OF_CLIENTS);
+//    System.out.println("number of requests: " + NUMBER_OF_CLIENTS);
+//    System.out.println("results: ");
 
     try (var executorService = Executors.newFixedThreadPool(NUMBER_OF_CLIENTS);
 
@@ -55,14 +65,17 @@ class SimpleBenchmarkingTool {
                       client
                           .sendAsync(req, BodyHandlers.ofString())
                           .thenApply(HttpResponse::body)
-                          .thenAccept(System.out::println))
+                          //.thenAccept(System.out::println)
+              )
               .toList();
 
       CompletableFuture.allOf(sendRequests.toArray(new CompletableFuture[0])).join();
 
-      long finish = System.currentTimeMillis();
+      long timeElapsed = System.currentTimeMillis() - start;
 
-      System.out.println("Time elapsed: " + (finish - start) + " ms");
+      System.out.println("Time elapsed: " + timeElapsed + " ms");
+
+      return timeElapsed;
     } catch (URISyntaxException e) {
       throw new RuntimeException(e);
     }
