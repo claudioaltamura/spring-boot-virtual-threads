@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 @RestController
-public class ComputatiionController {
+public class ComputationController {
 
   private final ComputationService computationService;
 
-  public ComputatiionController(ComputationService computationService) {
+  public ComputationController(ComputationService computationService) {
     this.computationService = computationService;
   }
 
