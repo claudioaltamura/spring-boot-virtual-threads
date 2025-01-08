@@ -1,3 +1,7 @@
+![GitHub Workflow Status (with branch)](https://img.shields.io/github/actions/workflow/status/claudioaltamura/spring-boot-virtual-threads/ci.yml?branch=main)
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 # spring-boot-virtual-threads
 Spring Boot Virtual Threads example
 
